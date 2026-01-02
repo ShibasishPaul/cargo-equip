@@ -1,3 +1,7 @@
+# Fork Note
+This fork adds support for the Rust 2024 edition, implemented entirely by AI without human verification. It is intended for personal use only, and adoption is not recommended.
+
+
 # cargo-equip
 
 [![CI](https://github.com/qryxip/cargo-equip/workflows/CI/badge.svg)](https://github.com/qryxip/cargo-equip/actions?workflow=CI)

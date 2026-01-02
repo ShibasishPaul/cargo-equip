@@ -32,6 +32,7 @@ use petgraph::{
 };
 use prettytable::{cell, format::FormatBuilder, row, Table};
 use quote::quote;
+use quote::ToTokens;
 use std::{
     cmp,
     collections::{BTreeMap, BTreeSet, HashMap, HashSet},
@@ -304,7 +305,7 @@ impl FromStr for User {
 }
 
 #[derive(Debug, derive_more::Display)]
-#[display(fmt = "crate::{}", _0)]
+#[display("crate::{}", _0)]
 pub struct CrateSinglePath(syn::Ident);
 
 impl FromStr for CrateSinglePath {
@@ -1172,7 +1173,7 @@ fn bundle(
                     *code += "        pub mod ";
                     *code += pseudo_extern_crate_name;
                     *code += " {";
-                    *code += &rustminify::minify_file(&rust::parse_file(mod_content)?);
+                    *code += &rust::parse_file(mod_content)?.to_token_stream().to_string();
                     *code += "}\n";
                 }
             } else {
@@ -1261,7 +1262,7 @@ fn bundle(
     }
 
     if minify == Minify::All {
-        code = rustminify::minify_file(&rust::parse_file(&code)?);
+        code = rust::parse_file(&code)?.to_token_stream().to_string();
     }
 
     if rustfmt {
